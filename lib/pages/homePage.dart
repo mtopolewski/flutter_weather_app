@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_weather_app1/models/forecast_response.dart';
 import 'package:flutter_weather_app1/providers/weather_provider.dart';
 import 'package:flutter_weather_app1/widgets/hourWeatherItem.dart';
+import 'package:flutter_weather_app1/widgets/rain_table.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -143,25 +144,23 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 140,
                     child: ListView.builder(
-                      itemCount: _forecast != null
-                          ? _forecast.hourly!.data!.length
-                          : 0,
+                      itemCount: _forecast != null ? 24 : 0,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (ctx, index) {
                         if (_forecast != null) {
                           var item = _forecast.hourly!.data![index];
 
-                          return HourWeatherItem(DateTime.now(),
-                              item.temperature!.toStringAsFixed(1));
+                          return HourWeatherItem(
+                              item.time, item.temperature!.toStringAsFixed(1));
                         }
 
                         return Container();
                       },
                     ),
-                    // child: ListView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   children: [HourWeatherItem(DateTime.now(), "10")],
-                    // ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RainTable(),
                   ),
                 ],
               ),

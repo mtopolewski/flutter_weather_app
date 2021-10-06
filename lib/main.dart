@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         theme: ThemeData(
           primaryColor: Color(0xFF0F1039),
+          hoverColor: Color(0xFF1D1F43),
+          shadowColor: Color(0xFF36375E),
+          backgroundColor: Color(0xFF181A41),
           brightness: Brightness.dark,
           fontFamily: 'Sofia',
         ),
