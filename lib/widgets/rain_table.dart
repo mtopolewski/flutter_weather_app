@@ -7,12 +7,13 @@ import 'package:intl/intl.dart';
 
 class RainTable extends StatelessWidget {
   const RainTable({Key? key}) : super(key: key);
+  static const height = 200.0;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       //color: Colors.grey,
-      height: 300,
+      height: height,
       //width: double.infinity,
       child: Container(
         child: Column(
@@ -22,11 +23,12 @@ class RainTable extends StatelessWidget {
           //children: [Text("sunny1"), Text("rainy"), Text("heavy rain")],
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text("Change of rain"),
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Text("Change of rain", style: TextStyle(fontSize: 18)),
             ),
             Expanded(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
                     width: 40,
@@ -54,15 +56,17 @@ class RainTable extends StatelessWidget {
                   ),
                   Expanded(
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        ColumnIndicator(DateTime.now()),
-                        ColumnIndicator(DateTime.now()),
-                        ColumnIndicator(DateTime.now()),
-                        ColumnIndicator(DateTime.now()),
-                        ColumnIndicator(DateTime.now()),
-                        ColumnIndicator(DateTime.now()),
+                        ColumnIndicator(DateTime.now(), height, 100),
+                        ColumnIndicator(DateTime.now(), height, 80),
+                        ColumnIndicator(DateTime.now(), height, 60),
+                        ColumnIndicator(DateTime.now(), height, 50),
+                        ColumnIndicator(DateTime.now(), height, 60),
+                        ColumnIndicator(DateTime.now(), height, 60),
+                        //ColumnIndicator(DateTime.now(), height, 60),
                       ],
                     ),
                   ),
@@ -82,14 +86,21 @@ class RainTable extends StatelessWidget {
 }
 
 class ColumnIndicator extends StatelessWidget {
-  ColumnIndicator(this.date, {Key? key}) : super(key: key);
-  //final widgetKey = GlobalKey();
+  ColumnIndicator(this.date, this.height, this.percentage, {Key? key})
+      : super(key: key) {
+    columnHeight = height - 86;
+  }
   final DateTime date;
-  Size? _size;
+  final double height;
+  final double percentage;
+  double? columnHeight;
+
   List<Widget> _generateLines() {
     var list = <Widget>[];
 
-    for (int i = 0; i < 8; i++) {
+    var n = height / 25;
+
+    for (int i = 0; i < n; i++) {
       list.add(Container(
         height: 10,
         width: 2,
@@ -100,32 +111,18 @@ class ColumnIndicator extends StatelessWidget {
     return list;
   }
 
-  Size? _getAncestorSize(BuildContext context) {
-    Size? size;
-    try {
-      size = context.size;
-    } catch (e) {}
-
-    return size;
-  }
-
-  void _postFrameCallback(BuildContext context) {
-    _size = _getAncestorSize(context);
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WidgetSize(
-      onChange: (size) {
-        return;
-      },
-      child: Column(
-        children: [
-          Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          //color: Colors.red,
+          child: Stack(
             children: [
               SizedBox(
                 width: 20,
+                height: columnHeight,
                 child: Column(
                   //key: widgetKey,
                   mainAxisSize: MainAxisSize.max,
@@ -134,66 +131,33 @@ class ColumnIndicator extends StatelessWidget {
                   children: _generateLines(),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: 20,
-                  height: 150, // != null ? _size!.height : 0,
-                  decoration: BoxDecoration(
-                    color: AppColor.NavyBlue4, //Theme.of(context).hoverColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: 20,
+                    height: (percentage / 100) *
+                        columnHeight!, // != null ? _size!.height : 0,
+                    decoration: BoxDecoration(
+                      color: AppColor.NavyBlue4, //Theme.of(context).hoverColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
                   ),
                 ),
               )
             ],
           ),
-          SizedBox(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 11),
+          child: SizedBox(
             height: 30,
             child: Text(DateFormat("ha").format(date)),
           ),
-        ],
-      ),
+        ),
+      ],
     );
-  }
-}
-
-class WidgetSize extends StatefulWidget {
-  final Widget child;
-  final Function onChange;
-
-  const WidgetSize({
-    Key? key,
-    required this.onChange,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  _WidgetSizeState createState() => _WidgetSizeState();
-}
-
-class _WidgetSizeState extends State<WidgetSize> {
-  @override
-  Widget build(BuildContext context) {
-    SchedulerBinding.instance!.addPostFrameCallback(postFrameCallback);
-    return Container(
-      key: widgetKey,
-      child: widget.child,
-    );
-  }
-
-  var widgetKey = GlobalKey();
-  var oldSize;
-
-  void postFrameCallback(_) {
-    var context = widgetKey.currentContext;
-    if (context == null) return;
-
-    var newSize = context.size;
-    if (oldSize == newSize) return;
-
-    oldSize = newSize;
-    widget.onChange(newSize);
   }
 }
