@@ -52,7 +52,15 @@ flutter:
   assets:
     - assets/landscape.jpeg
     - assets/landscape1.jpeg
+    - assets/clear.png
     - assets/cloudy.png
+    - assets/fog.png
+    - assets/nt_clear.png
+    - assets/nt_partlycloudy.png
+    - assets/partlycloudy.png
+    - assets/rain.png
+    - assets/sleet.png
+    - assets/snow.png
 
   fonts:
     - family: Sofia

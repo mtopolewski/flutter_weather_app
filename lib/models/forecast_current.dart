@@ -6,6 +6,7 @@ part 'forecast_current.g.dart';
 class ForecastCurrent {
   String? icon;
   double? temperature;
+  double? apparentTemperature;
   double? windSpeed;
 
   //String get temperatureStr => temperature!.toStringAsFixed(2);

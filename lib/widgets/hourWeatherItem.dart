@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app1/helpers/icon_name_to_icon_file_name.dart';
 import 'package:intl/intl.dart';
 
 class HourWeatherItem extends StatelessWidget {
-  const HourWeatherItem(this.date, this.temperature, {Key? key})
+  const HourWeatherItem(this.date, this.temperature, this.iconName, {Key? key})
       : super(key: key);
   final DateTime? date;
   final double? temperature;
+  final String? iconName;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,13 @@ class HourWeatherItem extends StatelessWidget {
                   child: Container(
                     child: SizedBox(
                       height: 30,
-                      child: Image.asset(
-                        "assets/cloudy.png",
-                        color: Colors.white,
-                      ),
+                      child: iconName != null
+                          ? Image.asset(
+                              IconNameToIconFileName.get(iconName!),
+                              //"assets/cloudy.png",
+                              color: Colors.white,
+                            )
+                          : Container(),
                     ),
                     height: 42,
                     padding: EdgeInsets.all(8),

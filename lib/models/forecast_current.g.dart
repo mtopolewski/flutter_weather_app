@@ -11,11 +11,12 @@ ForecastCurrent _$ForecastCurrentFromJson(Map<String, dynamic> json) =>
       json['icon'] as String?,
       (json['temperature'] as num?)?.toDouble(),
       (json['windSpeed'] as num?)?.toDouble(),
-    );
+    )..apparentTemperature = (json['apparentTemperature'] as num?)?.toDouble();
 
 Map<String, dynamic> _$ForecastCurrentToJson(ForecastCurrent instance) =>
     <String, dynamic>{
       'icon': instance.icon,
       'temperature': instance.temperature,
+      'apparentTemperature': instance.apparentTemperature,
       'windSpeed': instance.windSpeed,
     };

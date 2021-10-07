@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app1/helpers/icon_name_to_icon_file_name.dart';
 import 'package:flutter_weather_app1/models/forecast_response.dart';
 import 'package:flutter_weather_app1/providers/weather_provider.dart';
 import 'package:flutter_weather_app1/widgets/day_selector.dart';
 import 'package:flutter_weather_app1/widgets/hourWeatherItem.dart';
 import 'package:flutter_weather_app1/widgets/rain_table.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -73,10 +75,16 @@ class _HomePageState extends State<HomePage> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                                 child: SizedBox(
-                                  child: Image.asset(
-                                    "assets/cloudy.png",
-                                    color: Colors.lightBlue,
-                                  ),
+                                  child: _forecast != null &&
+                                          _forecast.currently != null
+                                      ? Image.asset(
+                                          //"assets/cloudy.png",
+                                          IconNameToIconFileName.get(
+                                            _forecast.currently!.icon!,
+                                          ),
+                                          color: Colors.lightBlue,
+                                        )
+                                      : Container(),
                                   width: 40,
                                 ),
                               ),
@@ -88,7 +96,8 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(fontSize: 26),
                                   ),
                                   Text(
-                                    "Sat, 3 Aug",
+                                    DateFormat("E, d MMM")
+                                        .format(DateTime.now()), //"Sat, 3 Aug",
                                     style: TextStyle(fontSize: 12),
                                   )
                                 ],
@@ -135,13 +144,14 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("Feels like 32"),
+                              Text(
+                                  "Feels like ${_forecast != null && _forecast.currently != null ? _forecast.currently!.apparentTemperature!.toStringAsFixed(0) : "N/A"}"),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10, 2, 10, 0),
                                 child: Icon(
                                   Icons.circle,
-                                  size: 4,
+                                  size: 6,
                                 ),
                               ),
                               Text("Sunset 20:15"),
@@ -159,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                            margin: EdgeInsets.fromLTRB(20, 30, 0, 0),
                             height: 142,
                             child: ListView.builder(
                               itemCount: _forecast != null ? 24 : 0,
@@ -169,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                   var item = _forecast.hourly!.data![index];
 
                                   return HourWeatherItem(
-                                      item.time, item.temperature!);
+                                      item.time, item.temperature!, item.icon);
                                 }
 
                                 return Container();
