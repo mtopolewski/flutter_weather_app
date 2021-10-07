@@ -5,13 +5,13 @@ class HourWeatherItem extends StatelessWidget {
   const HourWeatherItem(this.date, this.temperature, {Key? key})
       : super(key: key);
   final DateTime? date;
-  final String? temperature;
+  final double? temperature;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140,
-      width: 80,
+      height: 1540,
+      width: 72,
       padding: const EdgeInsets.all(1),
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 6),
       decoration: BoxDecoration(
@@ -41,18 +41,34 @@ class HourWeatherItem extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    height: 40,
+                    height: 42,
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.all(
-                        Radius.circular(20),
+                        Radius.circular(21),
                       ),
                     ),
                   ),
                 ),
               ),
-              Text(temperature != null ? temperature! : "N/A"),
+              Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      temperature != null
+                          ? temperature!.toStringAsFixed(0)
+                          : "N/A",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1),
+                      child: Text("°C"),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),

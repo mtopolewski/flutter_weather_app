@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app1/models/forecast_response.dart';
 import 'package:flutter_weather_app1/providers/weather_provider.dart';
+import 'package:flutter_weather_app1/widgets/day_selector.dart';
 import 'package:flutter_weather_app1/widgets/hourWeatherItem.dart';
 import 'package:flutter_weather_app1/widgets/rain_table.dart';
 import 'package:provider/provider.dart';
@@ -141,8 +142,9 @@ class _HomePageState extends State<HomePage> {
                       Text("Sunset 20:15"),
                     ],
                   ),
+                  DaySelector(),
                   Container(
-                    height: 140,
+                    height: 142,
                     child: ListView.builder(
                       itemCount: _forecast != null ? 24 : 0,
                       scrollDirection: Axis.horizontal,
@@ -150,8 +152,7 @@ class _HomePageState extends State<HomePage> {
                         if (_forecast != null) {
                           var item = _forecast.hourly!.data![index];
 
-                          return HourWeatherItem(
-                              item.time, item.temperature!.toStringAsFixed(1));
+                          return HourWeatherItem(item.time, item.temperature!);
                         }
 
                         return Container();
