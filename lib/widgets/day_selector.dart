@@ -12,32 +12,29 @@ class DaySelector extends StatelessWidget {
       children: [
         DayButton("Today", () {}),
         DayButton("Tomorrow", () {}),
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: TextButton(
-            onPressed: () {},
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Next 7 Days",
-                      style: TextStyle(fontSize: 18, color: Colors.lightBlue),
+        TextButton(
+          onPressed: () {},
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Next 7 Days",
+                    style: TextStyle(fontSize: 18, color: Colors.lightBlue),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 14,
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  height: 16,
-                )
-              ],
-            ),
+                  )
+                ],
+              ),
+              Container(
+                height: 16,
+              )
+            ],
           ),
         ),
       ],

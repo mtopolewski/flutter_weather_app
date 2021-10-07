@@ -132,7 +132,7 @@ class ColumnIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (MediaQuery.of(context).size.width - 56) / 6,
+      width: (MediaQuery.of(context).size.width - 80) / 6,
       //color: Colors.amber,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,

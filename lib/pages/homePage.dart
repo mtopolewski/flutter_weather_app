@@ -54,119 +54,140 @@ class _HomePageState extends State<HomePage> {
           title: Text("Weather Forecast"),
           centerTitle: true,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                          child: SizedBox(
-                            child: Image.asset(
-                              "assets/cloudy.png",
-                              color: Colors.lightBlue,
-                            ),
-                            width: 40,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 45,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                child: SizedBox(
+                                  child: Image.asset(
+                                    "assets/cloudy.png",
+                                    color: Colors.lightBlue,
+                                  ),
+                                  width: 40,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Today",
+                                    style: TextStyle(fontSize: 26),
+                                  ),
+                                  Text(
+                                    "Sat, 3 Aug",
+                                    style: TextStyle(fontSize: 12),
+                                  )
+                                ],
+                              )
+                            ],
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Today",
-                              style: TextStyle(fontSize: 26),
+                          Container(
+                            height: 100,
+                            //color: Colors.amber,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _forecast != null &&
+                                          _forecast.currently != null
+                                      ? _forecast.currently!.temperature!
+                                          .toStringAsFixed(0)
+                                      : "N/A",
+                                  style: TextStyle(fontSize: 120, height: 0.95),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 12, left: 10),
+                                  child: Text(
+                                    "°C",
+                                    style:
+                                        TextStyle(fontSize: 36, height: 0.95),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Sat, 3 Aug",
-                              style: TextStyle(fontSize: 12),
-                            )
-                          ],
-                        )
-                      ],
+                          ),
+                          Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text("Barcelona, Spain"),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                              child: Icon(
+                                Icons.ios_share,
+                                size: 14,
+                              ),
+                            ),
+                          ]),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text("Feels like 32"),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 2, 10, 0),
+                                child: Icon(
+                                  Icons.circle,
+                                  size: 4,
+                                ),
+                              ),
+                              Text("Sunset 20:15"),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: DaySelector(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _forecast != null && _forecast.currently != null
-                            ? _forecast.currently!.temperature!
-                                .toStringAsFixed(0)
-                            : "N/A",
-                        style: TextStyle(fontSize: 90),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 26, 0, 0),
-                        child: Text(
-                          "°C",
-                          style: TextStyle(fontSize: 30),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Barcelona, Spain"),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                        child: Icon(
-                          Icons.ios_share,
-                          size: 14,
-                        ),
-                      ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: Icon(Icons.ios_share),
-                      //   style: TextButton.styleFrom(primary: Colors.white),
-                      // )
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Feels like 32"),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
-                        child: Icon(
-                          Icons.circle,
-                          size: 4,
-                        ),
-                      ),
-                      Text("Sunset 20:15"),
-                    ],
-                  ),
-                  DaySelector(),
-                  Container(
-                    height: 142,
-                    child: ListView.builder(
-                      itemCount: _forecast != null ? 24 : 0,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (ctx, index) {
-                        if (_forecast != null) {
-                          var item = _forecast.hourly!.data![index];
+                    Expanded(
+                      flex: 55,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                            height: 142,
+                            child: ListView.builder(
+                              itemCount: _forecast != null ? 24 : 0,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (ctx, index) {
+                                if (_forecast != null) {
+                                  var item = _forecast.hourly!.data![index];
 
-                          return HourWeatherItem(item.time, item.temperature!);
-                        }
+                                  return HourWeatherItem(
+                                      item.time, item.temperature!);
+                                }
 
-                        return Container();
-                      },
+                                return Container();
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+                            child: RainTable(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RainTable(),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }
