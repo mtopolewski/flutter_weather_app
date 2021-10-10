@@ -3,6 +3,7 @@ import 'package:flutter_weather_app1/models/forecast_response.dart';
 import 'package:flutter_weather_app1/providers/weather_provider.dart';
 import 'package:flutter_weather_app1/styles/colors.dart';
 import 'package:flutter_weather_app1/widgets/next_day_card.dart';
+import 'package:flutter_weather_app1/widgets/next_day_item.dart';
 import 'package:provider/provider.dart';
 
 class NextDaysPage extends StatefulWidget {
@@ -58,12 +59,31 @@ class _NextDaysPageState extends State<NextDaysPage> {
                 style: TextStyle(fontSize: 24, color: AppColor.NavyBlue4),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     NextDayCard(_forecast!.daily!.data![2]),
+                    // Expanded(
+                    //   child: Container(
+                    //     color: Colors.red,
+                    //     //height: 100,
+                    //   ),
+                    // )
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _forecast.daily!.data!.length,
+                        itemBuilder: (context, index) =>
+                            NextDayItem(_forecast.daily!.data![0]),
+                      ),
+                    )
+                    // ListView.builder(
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   itemCount: _forecast.daily!.data!.length,
+                    //   itemBuilder: (context, index) =>
+                    //       NextDayItem(_forecast.daily!.data![0]),
+                    // )
                   ],
                 ),
               ),
