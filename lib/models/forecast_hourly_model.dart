@@ -8,8 +8,11 @@ class ForecastHourlyModel {
   final DateTime? time;
   final String? icon;
   final double? temperature;
+  final double? humidity;
+  final double? precipProbability;
 
-  ForecastHourlyModel(this.time, this.icon, this.temperature);
+  ForecastHourlyModel(this.time, this.icon, this.temperature, this.humidity,
+      this.precipProbability);
 
   static DateTime _fromJson(int int) =>
       DateTime.fromMicrosecondsSinceEpoch(1000000 * int);

@@ -154,7 +154,10 @@ class _HomePageState extends State<HomePage> {
                                   size: 6,
                                 ),
                               ),
-                              Text("Sunset 20:15"),
+                              Text(
+                                //DateFormat("hha").format(date!)
+                                "Sunset ${_forecast != null && _forecast.daily != null ? DateFormat("HH:mm").format(_forecast.daily!.data![0].sunsetTime!) : "N/A"}",
+                              ),
                             ],
                           ),
                           Padding(
@@ -188,7 +191,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-                            child: RainTable(),
+                            child: _forecast != null &&
+                                    _forecast.hourly != null &&
+                                    _forecast.hourly!.data != null
+                                ? RainTable(_forecast.hourly!.data)
+                                : Container(),
                           ),
                         ],
                       ),

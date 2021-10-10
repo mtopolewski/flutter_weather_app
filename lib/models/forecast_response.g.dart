@@ -17,6 +17,9 @@ ForecastResponse _$ForecastResponseFromJson(Map<String, dynamic> json) =>
       json['hourly'] == null
           ? null
           : ForecastHourly.fromJson(json['hourly'] as Map<String, dynamic>),
+      json['daily'] == null
+          ? null
+          : ForecastDaily.fromJson(json['daily'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ForecastResponseToJson(ForecastResponse instance) =>
@@ -26,4 +29,5 @@ Map<String, dynamic> _$ForecastResponseToJson(ForecastResponse instance) =>
       'timezone': instance.timezone,
       'currently': instance.currently,
       'hourly': instance.hourly,
+      'daily': instance.daily,
     };

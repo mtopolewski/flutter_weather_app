@@ -3,12 +3,14 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_weather_app1/models/forecast_hourly_model.dart';
 import 'package:flutter_weather_app1/styles/colors.dart';
 import 'package:intl/intl.dart';
 
 class RainTable extends StatelessWidget {
-  const RainTable({Key? key}) : super(key: key);
+  const RainTable(this.data, {Key? key}) : super(key: key);
   static const height = 180.0;
+  final List<ForecastHourlyModel>? data;
 
   @override
   Widget build(BuildContext context) {
@@ -56,37 +58,37 @@ class RainTable extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: SingleChildScrollView(
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        //crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ColumnIndicator(DateTime.now(), height, 50),
-                          ColumnIndicator(DateTime.now(), height, 80),
-                          ColumnIndicator(DateTime.now(), height, 60),
-                          ColumnIndicator(DateTime.now(), height, 50),
-                          ColumnIndicator(DateTime.now(), height, 60),
-                          ColumnIndicator(DateTime.now(), height, 60),
-                          ColumnIndicator(DateTime.now(), height, 100),
-                        ],
-                      ),
-                      // child: Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.stretch,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   mainAxisSize: MainAxisSize.max,
-                      //   children: [
-                      //     ColumnIndicator(DateTime.now(), height, 50),
-                      //     ColumnIndicator(DateTime.now(), height, 80),
-                      //     ColumnIndicator(DateTime.now(), height, 60),
-                      //     ColumnIndicator(DateTime.now(), height, 50),
-                      //     ColumnIndicator(DateTime.now(), height, 60),
-                      //     ColumnIndicator(DateTime.now(), height, 60),
-                      //     //ColumnIndicator(DateTime.now(), height, 60),
-                      //   ],
-                      // ),
+                      itemCount: data != null
+                          ? data!.length < 24
+                              ? data!.length
+                              : 24
+                          : 0,
+                      itemBuilder: (context, index) => ColumnIndicator(
+                          data![index].time!,
+                          height,
+                          data != null && data![index].precipProbability != null
+                              ? (1 - data![index].precipProbability!) * 100
+                              : 0),
                     ),
+                    // child: SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     //crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //     mainAxisSize: MainAxisSize.max,
+                    //     children: [
+                    //       ColumnIndicator(DateTime.now(), height, 50),
+                    //       ColumnIndicator(DateTime.now(), height, 80),
+                    //       ColumnIndicator(DateTime.now(), height, 60),
+                    //       ColumnIndicator(DateTime.now(), height, 50),
+                    //       ColumnIndicator(DateTime.now(), height, 60),
+                    //       ColumnIndicator(DateTime.now(), height, 60),
+                    //       ColumnIndicator(DateTime.now(), height, 100),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                   // Container(
                   //   height: double.infinity,

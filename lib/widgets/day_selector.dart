@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app1/pages/next_days_page.dart';
 
 class DaySelector extends StatelessWidget {
   const DaySelector({Key? key}) : super(key: key);
@@ -13,7 +14,9 @@ class DaySelector extends StatelessWidget {
         DayButton("Today", () {}),
         DayButton("Tomorrow", () {}),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/${NextDaysPage.name}');
+          },
           child: Column(
             children: [
               Row(

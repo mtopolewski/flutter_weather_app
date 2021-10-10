@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app1/pages/homePage.dart';
+import 'package:flutter_weather_app1/pages/next_days_page.dart';
 import 'package:flutter_weather_app1/providers/weather_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => WeatherProvider(),
       child: MaterialApp(
-        home: HomePage(),
+        //home: HomePage(),
         theme: ThemeData(
           primaryColor: Color(0xFF0F1039),
           hoverColor: Color(0xFF1D1F43),
@@ -24,6 +25,10 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           fontFamily: 'Sofia',
         ),
+        routes: <String, WidgetBuilder>{
+          '/': (BuildContext context) => HomePage(),
+          '/${NextDaysPage.name}': (BuildContext context) => NextDaysPage(),
+        },
       ),
     );
   }
