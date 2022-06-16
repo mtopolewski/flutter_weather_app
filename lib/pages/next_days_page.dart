@@ -72,10 +72,13 @@ class _NextDaysPageState extends State<NextDaysPage> {
                     //   ),
                     // )
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: _forecast.daily!.data!.length,
-                        itemBuilder: (context, index) =>
-                            NextDayItem(_forecast.daily!.data![0]),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: ListView.builder(
+                          itemCount: _forecast.daily!.data!.length,
+                          itemBuilder: (context, index) =>
+                              NextDayItem(_forecast.daily!.data![0]),
+                        ),
                       ),
                     )
                     // ListView.builder(
