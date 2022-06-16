@@ -69,40 +69,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 WeatherHorizontalListView(forecast: _forecast),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
                   child: _forecast != null &&
                           _forecast.hourly != null &&
                           _forecast.hourly!.data != null
                       ? RainTable(_forecast.hourly!.data)
                       : Container(),
                 ),
-                // Expanded(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       Expanded(
-                //         flex: 45,
-                //         child: WeatherTile(forecast: _forecast),
-                //       ),
-                //       Expanded(
-                //         flex: 55,
-                //         child: Column(
-                //           children: [
-                //             WeatherHorizontalListView(forecast: _forecast),
-                //             Padding(
-                //               padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-                //               child: _forecast != null &&
-                //                       _forecast.hourly != null &&
-                //                       _forecast.hourly!.data != null
-                //                   ? RainTable(_forecast.hourly!.data)
-                //                   : Container(),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

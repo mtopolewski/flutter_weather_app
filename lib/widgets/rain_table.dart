@@ -1,33 +1,35 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_weather_app1/models/forecast_hourly_model.dart';
+import 'package:flutter_weather_app1/styles/appStrings.dart';
 import 'package:flutter_weather_app1/styles/colors.dart';
 import 'package:intl/intl.dart';
 
-class RainTable extends StatelessWidget {
+class RainTable extends StatefulWidget {
   const RainTable(this.data, {Key? key}) : super(key: key);
   static const height = 180.0;
   final List<ForecastHourlyModel>? data;
 
   @override
+  State<RainTable> createState() => _RainTableState();
+}
+
+class _RainTableState extends State<RainTable> {
+  int _selectedIndex = 0;
+  @override
   Widget build(BuildContext context) {
     return Container(
       //color: Colors.grey,
-      height: height,
+      height: RainTable.height,
       //width: double.infinity,
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.max,
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //children: [Text("sunny1"), Text("rainy"), Text("heavy rain")],
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Text("Change of rain", style: TextStyle(fontSize: 18)),
+              child:
+                  Text(AppStrings.changeOfRain, style: TextStyle(fontSize: 18)),
             ),
             Expanded(
               child: Row(
@@ -45,9 +47,9 @@ class RainTable extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("sunny"),
-                              Text("rainy"),
-                              Text("heavy rain"),
+                              Text(AppStrings.sunny),
+                              Text(AppStrings.rainy),
+                              Text(AppStrings.heavyRain),
                             ],
                           ),
                         ),
@@ -59,42 +61,24 @@ class RainTable extends StatelessWidget {
                   ),
                   Expanded(
                     child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: data != null
-                          ? data!.length < 24
-                              ? data!.length
+                      itemCount: widget.data != null
+                          ? widget.data!.length < 24
+                              ? widget.data!.length
                               : 24
                           : 0,
                       itemBuilder: (context, index) => ColumnIndicator(
-                          data![index].time!,
-                          height,
-                          data != null && data![index].precipProbability != null
-                              ? (1 - data![index].precipProbability!) * 100
-                              : 0),
+                        widget.data![index].time!,
+                        RainTable.height,
+                        widget.data != null &&
+                                widget.data![index].precipProbability != null
+                            ? (1 - widget.data![index].precipProbability!) * 100
+                            : 0,
+                        isSelected: index == _selectedIndex,
+                      ),
                     ),
-                    // child: SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Row(
-                    //     //crossAxisAlignment: CrossAxisAlignment.stretch,
-                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //     mainAxisSize: MainAxisSize.max,
-                    //     children: [
-                    //       ColumnIndicator(DateTime.now(), height, 50),
-                    //       ColumnIndicator(DateTime.now(), height, 80),
-                    //       ColumnIndicator(DateTime.now(), height, 60),
-                    //       ColumnIndicator(DateTime.now(), height, 50),
-                    //       ColumnIndicator(DateTime.now(), height, 60),
-                    //       ColumnIndicator(DateTime.now(), height, 60),
-                    //       ColumnIndicator(DateTime.now(), height, 100),
-                    //     ],
-                    //   ),
-                    // ),
                   ),
-                  // Container(
-                  //   height: double.infinity,
-                  //   width: 2,
-                  //   color: Colors.red,
-                  // )
                 ],
               ),
             )
@@ -106,7 +90,8 @@ class RainTable extends StatelessWidget {
 }
 
 class ColumnIndicator extends StatelessWidget {
-  ColumnIndicator(this.date, this.height, this.percentage, {Key? key})
+  ColumnIndicator(this.date, this.height, this.percentage,
+      {Key? key, this.isSelected = false})
       : super(key: key) {
     columnHeight = height - 86;
   }
@@ -114,6 +99,7 @@ class ColumnIndicator extends StatelessWidget {
   final double height;
   final double percentage;
   double? columnHeight;
+  final bool isSelected;
 
   List<Widget> _generateLines() {
     var list = <Widget>[];
@@ -162,8 +148,10 @@ class ColumnIndicator extends StatelessWidget {
                       height: (percentage / 100) *
                           columnHeight!, // != null ? _size!.height : 0,
                       decoration: BoxDecoration(
-                        color:
-                            AppColor.NavyBlue4, //Theme.of(context).hoverColor,
+                        color: isSelected
+                            ? AppColor.yellow
+                            : AppColor
+                                .NavyBlue4, //Theme.of(context).hoverColor,
                         borderRadius: BorderRadius.all(
                           Radius.circular(20),
                         ),
